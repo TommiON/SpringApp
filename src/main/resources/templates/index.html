@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>WePa-projekti</title>
+    </head>
+    <body>
+        <div class="container">
+        <div class="row">
+        <div class="col-6">
+        <h1>WePa-projekti</h1>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-6">
+            <p>Uusi käyttäjä? <a th:href="@{/rekisteroidy}">Rekisteröi tunnus</a></p>
+        </div>
+        <div class="col-6">
+            <p>Onko jo tunnus? <a th:href="@{/login}">Kirjaudu</a></p>
+        </div>
+        </div>
+            <div class="row">
+                <p></p><p></p><p></p>
+                <p>(Huomio arvioijalle: Sovellus näyttäisi pysyvän pystyssä ja enimmäkseen tekevän
+                    mitä pitää, mutta bugeja on ja mm. kommentointitoiminto on 
+                    kokonaan implementoimatta. Aika loppui kesken...)</p>
+                
+            </div>
+        
+        
+        </div>
+    </body>
+</html>
+

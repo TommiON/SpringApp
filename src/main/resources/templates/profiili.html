@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>Profiili</title>
+    </head>
+    <body>
+        <div class="container">
+        
+        <div class="row">
+        <div class="col-8">
+        <h4 th:if="${omasivu == false}" th:text="${kayttaja.nimi}"></h4>
+        <h4 th:if="${omasivu == true}">Oma seinä</h4>
+        </div>
+        <div class="col-4">
+        <h5 th:text="${'Kirjautuneena: ' + aktiivinenKayttaja.nimi}">kayttaja</h5>
+        <img th:src="@{/profiilikuva/{x}(x=${kayttaja.id})}" height="100" width="100"/>
+        <a th:if="${omasivu == false}" th:href="@{/kotisivu}">Omaan profiiliin</a>
+        <p></p>
+        <a th:href="@{/kayttajat}">Käyttäjäluetteloon</a>
+        <p></p>
+        <a th:href="@{/logout}">Kirjaudu ulos</a>
+        <p></p><p></p>
+        </div>
+        </div>
+            
+        <div class="row">
+            <div class="col-8">
+        
+        </div>
+        </div> 
+          
+        <div class="row">
+        <div class="col-8">
+        <h4>Viestit</h4>
+        <p>Kirjoita viesti:</p>
+        <form method="POST" th:action="@{/uusiViesti/{x}(x=${kayttaja.kayttajatunnus})}">
+            <input type="text" name="teksti"/>
+            <input type="submit" value="Lähetä viesti"/>
+        </form>
+        
+        <ul>
+            <li th:each="viesti : ${kayttaja.viestit}">
+                <p th:text="${'Lähettäjä: '  + viesti.lahettaja.nimi}">lähettäjä</p>
+                <p th:text="${'Tykkäyksiä '  + viesti.tykkayksia}">tykkäyksiä</p>
+                <p th:text="${viesti.teksti}">teksti</p>
+                <form method="POST" th:action="@{/tykkaaViestista/{viestiID}(viestiID=${viesti.id})}">
+                <input type="submit" value="Tykkää"/>
+                </form>
+                
+            </li>
+        </ul>
+        
+        <h4>Kuva-albumi</h4>
+        <p th:if="${omasivu == true}">Lataa uusi kuva</p>
+        <form th:if="${omasivu == true}" th:action="@{/kuvat}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="tiedosto" />
+            <div>Kuvateksti: </div>
+            <input type="text" name="kuvaus" />
+            <input type="submit" value="Lataa kuva"/>
+        </form>
+        
+        <ul>
+            <li th:each="kuva : ${kayttaja.kuvat}">
+                <p th:text="${kuva.kuvateksti}">kuvateksti</p>
+                <p th:text="${'Tykkäyksiä '  + kuva.tykkayksia}">tykkäyksiä</p>
+                <img th:src="@{/kuvat/{x}(x=${kuva.id})}" height="200" width="200"/>
+                <form method="POST" th:action="@{/tykkaaKuvasta/{kuvaID}(kuvaID=${kuva.id})}">
+                <input type="submit" value="Tykkää"/>
+                </form>
+                <form method="POST" th:action="@{/asetaProfiilikuvaksi/{kuvaID}(kuvaID=${kuva.id})}">
+                <input th:if="${omasivu == true}" type="submit" value="Aseta profiilikuvaksi"/>
+                </form>
+            </li>
+        </ul>
+        </div>
+            
+        <div class="col-4">
+        <h5>Kaverit</h5>
+        
+        <ul>
+            <li th:each="kaveri : ${kayttaja.kaverit}">
+                <a th:href="@{/profiili/{x}(x=${kaveri.profiilipolku})}" th:text="${kaveri.nimi}">nimi</a>
+            </li>
+        </ul>
+        <h5 th:if="${omasivu == true}">Kaveripyynnöt</h5>
+        <ul>
+            <li th:if="${omasivu == true}" th:each="pyynto : ${kayttaja.kaveripyynnot}">
+                <span th:text="${pyynto.nimi}">nimi</span>
+                <form method="POST" th:action="@{/hyvaksyPyynto/{x}(x=${pyynto.kayttajatunnus})}">
+                <input type="submit" value="Hyväksy"/>
+                </form>
+                <form method="POST" th:action="@{/hylkaaPyynto/{x}(x=${pyynto.kayttajatunnus})}">
+                <input type="submit" value="Hylkää"/>
+                </form>
+            </li>
+        </ul>
+        </div>
+        </div>
+        
+        </div>
+        
+    </body>
+</html>
+
